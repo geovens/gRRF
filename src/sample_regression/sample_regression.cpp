@@ -156,6 +156,7 @@ void Sample2()
 		adata->D = 1;
 		adata->N = 1;
 		adata->x = (float)rand() / RAND_MAX;
+		adata->x_noise = (float)rand() / RAND_MAX;
 		adata->v = pow(adata->x, 2);
 		TrainingData->AddElement(adata);
 	}
@@ -178,6 +179,7 @@ void Sample2()
 		adata->D = 1;
 		adata->N = 1;
 		adata->x = (float)rand() / RAND_MAX;
+		adata->x_noise = (float)rand() / RAND_MAX;
 		adata->v = pow(adata->x, 2);
 		TestingData->AddElement(adata);
 	}

@@ -6,10 +6,12 @@ class Data_Sample2 : public Data
 {
 public:
 
-	// the meaningful feature value, provided when a, b and c are all below 0.1
-	float x;
 	// ground truth target value
 	float v;
+	// the meaningful feature value, provided when a, b and c are all below 0.1
+	float x;
+	// the meaningless feature value, provided when a, b, and c are not all below 0.1
+	float x_noise;
 
 	Data_Sample2();
 
