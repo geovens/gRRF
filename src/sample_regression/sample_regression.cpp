@@ -1,5 +1,4 @@
-// sample_xy.cpp : Defines the entry point for the console application.
-//
+// gRRF by Weizhi Nai
 
 #include "gRRF.h"
 #include "Function_Sample1.h"
@@ -8,7 +7,7 @@
 
 void Sample1()
 {
-	// This sample program generates some training samples using a fixed equation f(x_1, x_2, x_3, x_4) = x_1^2 + (x_2 - x_3)^2 + exp(x_4)
+	// This sample program generates some training samples using a fixed equation v = R(x_1, x_2, x_3, x_4) = x_1^2 + (x_2 - x_3)^2 + exp(x_4)
 	// and then train a regresion forest to fit the training samples
 	// and then test the forest with new testing samples.
 
@@ -111,13 +110,13 @@ void Sample1()
 void Sample2()
 {
 	// Random Regression Forest is a regression tool for samples with features of infinite dimensions.
-	// Each training sample has an associated target value v, and virtually infinite features, f(x_1, x_2, ...) = v.
-	// Each feature is parameterized with a number of parameters, i.e. x_i = h(a_i, b_i, c_i). a_i, b_i, and c_i are called feature extracting parameters.
+	// Each training sample has an associated target value v, and virtually infinite features, v = R(x_1, x_2, ...).
+	// Each feature is parameterized with a number of parameters, i.e. x_i = F(a_i, b_i, c_i). a_i, b_i, and c_i are called feature extracting parameters.
 	// Some features may have correlation with the target value, while most might not.
 	// So we want to search for a number of features that have correlation with target value and use them for regression.
 
-	// In this sample program we simulate a simple problem: when a, b and c are all below 0.1, the feature value x = h(a, b, c) will be a 'meaningful' one which conforms to the euqation v = x^2
-	// while otherwise, the feature value x = h(a, b, c) is random and meaningless.
+	// In this sample program we simulate a simple problem: when a, b and c are all below 0.1, the feature value x = F(a, b, c) will be a 'meaningful' one which conforms to the euqation v = x^2
+	// while otherwise, the feature value x = F(a, b, c) is random and meaningless.
 	// Each sample is associated with a fixed meaningful feature value x and a fixed target value v = x^2.
 
 	// In summary, to use gRRF, you need to derive two classes, Data and Function, and implement 4 functions according to your problem.
@@ -132,7 +131,7 @@ void Sample2()
 
 
 	// plan a forest and set some parameters
-	int CandidatesEachNode = 1000; // how many sets of feature extracting parameters are randomly generated when training each node. Each node with choose a 'best' one from these many candidates.
+	int CandidatesEachNode = 1000; // how many sets of feature extracting parameters are randomly generated when training each node. Each node will choose a 'best' one from these many candidates.
 	int MaxTreeDepth = 12; 
 	int TreeNumber = 5;
 	int MaxThreadNumber = 4; // when using more than 1 thread to train, the output texts are disordered but that is OK.
