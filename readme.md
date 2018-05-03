@@ -6,11 +6,11 @@ A feature vector **x** of a data sample S can be extracted using a feature extra
 
 Define your own feature extracting function F(S; **a**) and splitting function T(**x**; **a**) to the need of your problem, and gRRF handles the recursive training and testing progress. A detailedly commented sample program is included.
 
-A classification version of this random forest tool (gRF) is used in my hand posture recognition algorithm.
+A classification version of this random forest tool ([gRF](https://github.com/geovens/gRF)) is used in my hand posture recognition algorithm.
 
 ### Features
-Automatically resume training process that is forcefully stopped at any point  
-Allow hierarchical structure of sample data  
-C++ only, no third-party (C++ 11 is needed because of std::thread)  
-Multithread training  
-Fast  
++ Automatically resume training process that is forcefully stopped at any point  
++ Allow hierarchical structure of sample data  
++ C++ only, no third-party (C++ 11 is needed because of std::thread)  
++ Multithread training  
++ Fast  
