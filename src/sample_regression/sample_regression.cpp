@@ -8,8 +8,8 @@
 void Sample1()
 {
 	// This sample program generates some training samples using a fixed equation v = R(x_1, x_2, x_3, x_4) = x_1^2 + (x_2 - x_3)^2 + exp(x_4)
-	// and then train a regresion forest to fit the training samples
-	// and then test the forest with new testing samples.
+	// and then trains a regresion forest to fit the training samples
+	// and then tests the forest with new testing samples.
 
 	// This is a simple sample program which uses fixed pre-calculated feature values.
 	// Fixed pre-calculated feature values are not what Random Regression Forest is really meant to be used for.
