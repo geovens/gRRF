@@ -14,3 +14,5 @@ A classification version of this random forest tool ([gRF](https://github.com/ge
 + C++ only, no third-party (C++ 11 is needed because of std::thread)  
 + Multithread training  
 + Fast  
+
+![screenshot](https://raw.githubusercontent.com/geovens/gRRF/master/screenshot.jpg)  
