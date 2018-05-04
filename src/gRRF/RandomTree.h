@@ -42,7 +42,11 @@ public:
 	__declspec(dllexport) int Grow(Node* node);
 	__declspec(dllexport) int PlantGrowFull(int depth);
 	__declspec(dllexport) int ReadNodeFile();
+	// automatically start training new model or resume previous unfinished training process
 	__declspec(dllexport) int Train(Data* data, int linkermode);
+	// start training new model
+	__declspec(dllexport) int TrainNew(Data* data, int linkermode);
+
 	__declspec(dllexport) int Test(Data* data);
 	__declspec(dllexport) int Test(Data* data, int level);
 	__declspec(dllexport) Node* TestFeature(featuretype* feature);

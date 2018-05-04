@@ -56,6 +56,20 @@ int RandomForest::SetMaxThreadNumber(int thread)
 	return 0;
 }
 
+int RandomForest::TrainNew(Data* data, int linkermode)
+{
+	_mkdir("./output");
+	if (linkermode == 2) _mkdir("./internal");
+
+	for (int n = 0; n < TreeCount; n++)
+	{
+		printf("Tree No. %d\n", n);
+		int rec = Trees[n].TrainNew(data, linkermode);
+		if (rec < 0) return rec;
+	}
+	return 0;
+}
+
 int RandomForest::Train(Data* data, int linkermode)
 {
 	_mkdir("./output");

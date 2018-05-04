@@ -251,13 +251,14 @@ int RandomTree::ReadTrainingProcess()
 
 	int depth, abcnum, d, n;
 	fscanf(ftree, "%d,%d,%d,%d,%d\n", &depth, &n, &d, &abcnum);
+	fclose(ftree);
+
 	if (n != ThisData->N)
 		return -1;
 	if (d != ThisData->D)
 		return -1;
 	if (abcnum != Function->ABCNum)
 		return -1;
-	fclose(ftree);
 
 	int red = ReadNodeFile();
 	if (red == -1)
@@ -364,6 +365,66 @@ int RandomTree::WriteNode(Node* node)
 	return 0;
 }
 
+int RandomTree::TrainNew(Data* data, int linkermode)
+{
+	ThisData = data;
+	Root->ThisData = data;
+	PointersMode = linkermode;
+
+	printf("starting a new training process.\n\n");
+	FILE* ftree;
+	ftree = fopen(".\\output\\tree.txt", "w");
+	fprintf(ftree, "%d,%d,%d,%d\n", MaxDepth, ThisData->N, ThisData->D, Function->ABCNum);
+	fprintf(ftree, "%d,%d\n", CandidatesEachNode, linkermode);
+	fclose(ftree);
+	char nodefiletext[1024];
+	sprintf(nodefiletext, ".\\output\\nodes-%d.txt", ID);
+	FNode = fopen(nodefiletext, "w");
+	fprintf(FNode, "%d\n", Function->ABCNum);
+
+	Linker* datapointers;
+	if (linkermode == 1)
+	{
+		// This linker is only appliable for fixed features of finite dimension, not for dynamicly calculated features using abc.
+		datapointers = new LinkerPointer();
+	}
+	else if (linkermode == 2)
+	{
+		// use file instead of memory
+		datapointers = new LinkerIndexerFile();
+	}
+	else if (linkermode == 3)
+	{
+		// this should be the default linker
+		datapointers = new LinkerIndexer();
+	}
+	else
+	{
+		// this should be the default linker
+		datapointers = new LinkerIndexer();
+	}
+
+	datapointers->InitFromData(data);
+	Root->ThisDataPointers = datapointers;
+	Root->ThisDataPointers->ThisNode = Root;
+	//RecursionSplitTrainingSet(Root);
+	int** hp = new int*[2];
+	hp[0] = (int*)this;
+	hp[1] = (int*)Root;
+	//HANDLE hThread;
+	//hThread = CreateThread(NULL, 0, NewThread, hp, 0, NULL);
+	//CloseHandle(hThread);
+	//Sleep(100);
+	new std::thread(NewThread, hp);
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	while (ThreadCount > 0)
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+	fclose(FNode);
+	printf("\ntraining finished.\n");
+	return 0;
+}
+
 int RandomTree::Train(Data* data, int linkermode)
 {
 	ThisData = data;
@@ -372,58 +433,7 @@ int RandomTree::Train(Data* data, int linkermode)
 	int rec = ReadTrainingProcess();
 	if (rec == 0)
 	{
-		printf("starting a new training process.\n\n");
-		FILE* ftree;
-		ftree = fopen(".\\output\\tree.txt", "w");
-		fprintf(ftree, "%d,%d,%d,%d\n", MaxDepth, ThisData->N, ThisData->D, Function->ABCNum);
-		fprintf(ftree, "%d,%d\n", CandidatesEachNode, linkermode);
-		fclose(ftree);
-		char nodefiletext[1024];
-		sprintf(nodefiletext, ".\\output\\nodes-%d.txt", ID);
-		FNode = fopen(nodefiletext, "w");
-		fprintf(FNode, "%d\n", Function->ABCNum);
-
-		Linker* datapointers;
-		if (linkermode == 1)
-		{
-			// This linker is only appliable for fixed features of finite dimension, not for dynamicly calculated features using abc.
-			datapointers = new LinkerPointer();
-		}
-		else if (linkermode == 2)
-		{
-			// use file instead of memory
-			datapointers = new LinkerIndexerFile();
-		}
-		else if (linkermode == 3)
-		{
-			// this should be the default linker
-			datapointers = new LinkerIndexer();
-		}
-		else
-		{
-			// this should be the default linker
-			datapointers = new LinkerIndexer();
-		}
-
-		datapointers->InitFromData(data);
-		Root->ThisDataPointers = datapointers;
-		Root->ThisDataPointers->ThisNode = Root;
-		//RecursionSplitTrainingSet(Root);
-		int** hp = new int*[2];
-		hp[0] = (int*)this;
-		hp[1] = (int*)Root;
-		//HANDLE hThread;
-		//hThread = CreateThread(NULL, 0, NewThread, hp, 0, NULL);
-		//CloseHandle(hThread);
-		//Sleep(100);
-		new std::thread(NewThread, hp);
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-		while (ThreadCount > 0)
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-		fclose(FNode);
-		printf("\ntraining finished.\n");
-		return 0;
+		TrainNew(data, linkermode);
 	}
 	else if (rec == 1)
 	{
