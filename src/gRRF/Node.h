@@ -43,4 +43,6 @@ public:
 	int SplitManyTimes(int times);
 	int CalEntropy(double* eout);
 	int Vote();
+
+	void Release();
 };

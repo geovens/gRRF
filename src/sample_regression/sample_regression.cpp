@@ -105,6 +105,7 @@ void Sample1()
 	}
 	printf("average error: %f\n", sumdiff / TestingData->N);
 
+	forest.Release();
 	getchar();
 }
 
@@ -202,6 +203,7 @@ void Sample2()
 	}
 	printf("average error: %f\n", sumdiff / TestingData->N);
 
+	forest.Release();
 	getchar();
 }
 

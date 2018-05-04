@@ -111,6 +111,7 @@ int RandomForest::Test(Data* data)
 		data->SetPrediction(i, sum / sumn);
 		data->SetReachedNode(i, node);
 	}
+	delete feature_temp_store;
 	return 0;
 }
 
@@ -140,5 +141,15 @@ int RandomForest::Test(Data* data, int level)
 		data->SetPrediction(i, sum / sumn);
 		data->SetReachedNode(i, node);
 	}
+	delete feature_temp_store;
 	return 0;
+}
+
+void RandomForest::Release()
+{
+	for (int n = 0; n < TreeCount; n++)
+	{
+		Trees[n].Release();
+	}
+	TreeCount = 0;
 }

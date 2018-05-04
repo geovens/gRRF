@@ -592,3 +592,9 @@ bool RandomTree::TestFeatureReach(int index, Node* srcnode, featuretype* feature
 	else
 		return false;
 }
+
+void RandomTree::Release()
+{
+	if (Root != NULL)
+		Root->Release();
+}

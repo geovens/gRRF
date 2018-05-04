@@ -22,4 +22,6 @@ public:
 	__declspec(dllexport) int TrainNew(Data* data, int linkermode);
 	__declspec(dllexport) int Test(Data* data);
 	__declspec(dllexport) int Test(Data* data, int level);
+
+	__declspec(dllexport) void Release();
 };

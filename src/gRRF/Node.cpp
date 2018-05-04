@@ -159,3 +159,15 @@ int Node::Vote()
 
 	return 0;
 }
+
+void Node::Release()
+{
+	if (!IsLeaf && Left != NULL)
+		Left->Release();
+	if (!IsLeaf && Right != NULL)
+		Right->Release();
+
+	if (ABC != NULL)
+		delete ABC;
+	delete this;
+}
