@@ -6,6 +6,7 @@
 
 RandomForest::RandomForest()
 {
+	TreeCount = 0;
 }
 
 int RandomForest::Plant(int count)

@@ -5,7 +5,10 @@
 
 Data::Data()
 {
+	Features = NULL;
+	Values = NULL;
 	ReachedNodes = NULL;
+	Predictions = NULL;
 }
 
 Data* Data::GetSample(int index, int* local_index_out)
@@ -76,10 +79,14 @@ valuetype Data::GetPrediction(int index)
 
 int Data::Release()
 {
-	delete Features;
-	delete Values;
-	//delete SplitFlags;
-	//delete LabelCount;
+	if (Features != NULL)
+		delete Features;
+	if (Values != NULL)
+		delete Values;
+	if (ReachedNodes != NULL)
+		delete ReachedNodes;
+	if (Predictions != NULL)
+		delete Predictions;
 	delete this;
 	return 0;
 }
