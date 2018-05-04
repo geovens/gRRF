@@ -173,14 +173,11 @@ void Sample2()
 	}
 
 	// generating testing data
-	int GlobalTestSampleID = 0;
 	DataSerial* TestingData = new DataSerial();
 	TestingData->D = 1;
 	for (int d = 0; d < TestingN; d++)
 	{
 		Data_Sample2* adata = new Data_Sample2();
-		GlobalTestSampleID++;
-		adata->ID = GlobalTestSampleID;
 		adata->D = 1;
 		adata->N = 1;
 		adata->x = (float)rand() / RAND_MAX;
@@ -199,11 +196,9 @@ void Sample2()
 	{
 		float prediction = TestingData->GetPrediction(d);
 		int local_index;
-		int id = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->ID;
-		float x = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->x;
-		float v = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->v;
-		printf("%d: (%f) -> %f (ground truth is %f)\n", id, x, prediction, v);
-		sumdiff += abs(prediction - v);
+		Data_Sample2* thesample = (Data_Sample2*)(TestingData->GetSample(d, &local_index));
+		printf("(%f) -> %f (ground truth is %f)\n", thesample->x, prediction, thesample->v);
+		sumdiff += abs(prediction - thesample->v);
 	}
 	printf("average error: %f\n", sumdiff / TestingData->N);
 

@@ -21,6 +21,8 @@ public:
 	int Trained;
 	// type of this node
 	int Type;
+	// number of samples reached this node
+	int N;
 	// average value of all samples on this node
 	valuetype AverageValue;
 
@@ -41,7 +43,4 @@ public:
 	int SplitManyTimes(int times);
 	int CalEntropy(double* eout);
 	int Vote();
-
-	// debug temp
-	int N;
 };

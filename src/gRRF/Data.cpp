@@ -69,7 +69,7 @@ int Data::SetPrediction(int index, valuetype prediction)
 
 valuetype Data::GetPrediction(int index)
 {
-	if (ReachedNodes == NULL)
+	if (Predictions == NULL)
 		return -99;
 	return Predictions[index];
 }
