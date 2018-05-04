@@ -433,7 +433,7 @@ int RandomTree::Train(Data* data, int linkermode)
 	int rec = ReadTrainingProcess();
 	if (rec == 0)
 	{
-		TrainNew(data, linkermode);
+		return TrainNew(data, linkermode);
 	}
 	else if (rec == 1)
 	{
