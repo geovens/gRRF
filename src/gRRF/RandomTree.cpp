@@ -465,8 +465,6 @@ int RandomTree::Test(Data* data)
 {
 	ThisData = data;
 
-
-	//data->Predictions = new Node*[data->N];
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	for (int i = 0; i < data->N; i++)
 	{
@@ -481,7 +479,6 @@ int RandomTree::Test(Data* data, int level)
 {
 	ThisData = data;
 
-	//data->Predictions = new Node*[data->N];
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	for (int i = 0; i < data->N; i++)
 	{

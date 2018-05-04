@@ -72,9 +72,6 @@ int RandomForest::Train(Data* data, int linkermode)
 
 int RandomForest::Test(Data* data)
 {
-	data->ReachedNodes = new Node*[data->N];
-	data->Predictions = new valuetype[data->N];
-
 	for (int n = 0; n < TreeCount; n++)
 	{
 		Trees[n].ThisData = data;
@@ -93,13 +90,11 @@ int RandomForest::Test(Data* data)
 		{
 			node = Trees[n].TestFeature(i, feature_temp_store);
 			sum += node->AverageValue * node->N;
-			//sum += node->AverageValue;
 			sumn += node->N;
 			if (node->N == 0) printf("WARNING: N==0");
 		}
 
-		data->Predictions[i] = sum / sumn;
-		//data->Predictions[i] = sum / TreeCount;
+		data->SetPrediction(i, sum / sumn);
 		data->SetReachedNode(i, node);
 	}
 	return 0;
@@ -107,9 +102,6 @@ int RandomForest::Test(Data* data)
 
 int RandomForest::Test(Data* data, int level)
 {
-	data->ReachedNodes = new Node*[data->N];
-	data->Predictions = new valuetype[data->N];
-
 	for (int n = 0; n < TreeCount; n++)
 	{
 		Trees[n].ThisData = data;
@@ -128,12 +120,10 @@ int RandomForest::Test(Data* data, int level)
 		{
 			node = Trees[n].TestFeature(i, level, feature_temp_store);
 			sum += node->AverageValue * node->N;
-			//sum += node->AverageValue;
 			sumn += node->N;
 		}
 
-		data->Predictions[i] = sum / sumn;
-		//data->Predictions[i] = sum / TreeCount;
+		data->SetPrediction(i, sum / sumn);
 		data->SetReachedNode(i, node);
 	}
 	return 0;

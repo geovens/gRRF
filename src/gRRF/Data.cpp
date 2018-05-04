@@ -59,6 +59,21 @@ Node* Data::GetReachedNode(int index)
 	return ReachedNodes[index];
 }
 
+int Data::SetPrediction(int index, valuetype prediction)
+{
+	if (Predictions == NULL)
+		Predictions = new valuetype[N];
+	Predictions[index] = prediction;
+	return 0;
+}
+
+valuetype Data::GetPrediction(int index)
+{
+	if (ReachedNodes == NULL)
+		return -99;
+	return Predictions[index];
+}
+
 int Data::Release()
 {
 	delete Features;

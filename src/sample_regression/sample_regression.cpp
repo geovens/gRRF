@@ -96,8 +96,9 @@ void Sample1()
 	valuep = TestingData->Values;
 	for (int d = 0; d < TestingData->N; d++)
 	{
-		printf("(%f,%f,%f,%f) -> %f (ground truth is %f)\n", featurep[0], featurep[1], featurep[2], featurep[3], TestingData->Predictions[d], *valuep);
-		sumdiff += abs(TestingData->Predictions[d] - *valuep);
+		float prediction = TestingData->GetPrediction(d);
+		printf("(%f,%f,%f,%f) -> %f (ground truth is %f)\n", featurep[0], featurep[1], featurep[2], featurep[3], prediction, *valuep);
+		sumdiff += abs(prediction - *valuep);
 
 		featurep += TestingData->D;
 		valuep++;
@@ -196,12 +197,13 @@ void Sample2()
 	float sumdiff = 0;
 	for (int d = 0; d < TestingData->N; d++)
 	{
+		float prediction = TestingData->GetPrediction(d);
 		int local_index;
 		int id = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->ID;
 		float x = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->x;
 		float v = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->v;
-		printf("%d: (%f) -> %f (ground truth is %f)\n", id, x, TestingData->Predictions[d], v);
-		sumdiff += abs(TestingData->Predictions[d] - v);
+		printf("%d: (%f) -> %f (ground truth is %f)\n", id, x, prediction, v);
+		sumdiff += abs(prediction - v);
 	}
 	printf("average error: %f\n", sumdiff / TestingData->N);
 
@@ -210,7 +212,7 @@ void Sample2()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//Sample1();
-	Sample2();
+	Sample1();
+	//Sample2();
 	return 0;
 }

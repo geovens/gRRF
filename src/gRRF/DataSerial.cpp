@@ -101,6 +101,22 @@ Node* DataSerial::GetReachedNode(int index)
 	return Elements[ei]->GetReachedNode(index - EN[ei]);
 }
 
+int DataSerial::SetPrediction(int index, valuetype prediction)
+{
+	int ei = 0;
+	while (index >= EN[ei + 1])
+		ei++;
+	return Elements[ei]->SetPrediction(index - EN[ei], prediction);
+}
+
+valuetype DataSerial::GetPrediction(int index)
+{
+	int ei = 0;
+	while (index >= EN[ei + 1])
+		ei++;
+	return Elements[ei]->GetPrediction(index - EN[ei]);
+}
+
 int DataSerial::Release()
 {
 	for (int e = 0; e < ElementCount; e++)

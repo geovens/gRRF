@@ -17,6 +17,8 @@ public:
 	featuretype* Features;
 	// value of each sample (for regression)
 	valuetype* Values;
+	
+private:	
 	// predicted value of each sample. 
 	// (2016.08: seems like only available after testing with a forest instead of a single tree)
 	valuetype* Predictions;
@@ -25,13 +27,7 @@ public:
 	// format: ReachedNodes[i] is a pointer to the leaf node that the i'th sample reaches
 	Node** ReachedNodes;
 
-	// split samples into two groups according to SplitFlags
-	// output to *child[0] and *child[1]
-	//__declspec(dllexport) virtual int Split(Data** child);
-
-	// generate two new data. should be implemented in child class
-	//__declspec(dllexport) virtual Data** NewChildren() = 0;
-
+public:
 	__declspec(dllexport) Data();
 	__declspec(dllexport) virtual Data* GetSample(int index, int* local_index_out);
 	__declspec(dllexport) virtual featuretype* GetFeatureP(int index, featuretype* abc);
@@ -39,8 +35,12 @@ public:
 	__declspec(dllexport) virtual valuetype* GetValueP(int index);
 	__declspec(dllexport) virtual void GetFeatureValue(int index, featuretype* abc, featuretype* feature_out, valuetype* value_out);
 	__declspec(dllexport) virtual void GetValue(int index, valuetype* value_out);
+
+	__declspec(dllexport) virtual int SetPrediction(int index, valuetype prediction);
+	__declspec(dllexport) virtual valuetype GetPrediction(int index);
 	__declspec(dllexport) virtual int SetReachedNode(int index, Node* prediction);
 	__declspec(dllexport) virtual Node* GetReachedNode(int index);
+
 
 	__declspec(dllexport) virtual int Release();
 };

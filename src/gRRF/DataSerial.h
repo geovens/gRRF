@@ -23,6 +23,9 @@ public:
 	__declspec(dllexport) virtual valuetype* GetValueP(int index);
 	__declspec(dllexport) virtual void GetFeatureValue(int index, featuretype* abc, featuretype* feature_out, valuetype* value_out);
 	__declspec(dllexport) virtual void GetValue(int index, valuetype* value_out);
+
+	__declspec(dllexport) virtual int SetPrediction(int index, valuetype prediction);
+	__declspec(dllexport) virtual valuetype GetPrediction(int index);
 	__declspec(dllexport) virtual int SetReachedNode(int index, Node* prediction);
 	__declspec(dllexport) virtual Node* GetReachedNode(int index);
 
