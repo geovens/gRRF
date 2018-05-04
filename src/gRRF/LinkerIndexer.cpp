@@ -52,9 +52,6 @@ int LinkerIndexer::FastInit()
 	GetLabelindex = 0;
 	SetSplitFlagindex = 0;
 	GetSplitFlagindex = 0;
-	GetFeatureLabelEI = 0;
-	GetLabelEI = 0;
-	GetLabelPEI = 0;
 	return 0;
 }
 
@@ -72,7 +69,7 @@ int LinkerIndexer::FastClose()
 valuetype LinkerIndexer::GetValueNext()
 {
 	valuetype r;
-	ThisData->GetValue(Indexes[GetLabelindex], &r, &GetLabelEI);
+	ThisData->GetValue(Indexes[GetLabelindex], &r);
 	GetLabelindex++;
 	return r;
 }
@@ -80,8 +77,8 @@ void LinkerIndexer::GetFeatureValueNext(featuretype* abc, featuretype* feature_o
 {
 	//featuretype* feature;
 	//labeltype label;
-	ThisData->GetFeatureValue(Indexes[GetFeatureindex], abc, feature_out, value_out, &GetFeatureLabelEI);
-	GetFeatureindex++;
+	ThisData->GetFeatureValue(Indexes[GetFeatureLabelindex], abc, feature_out, value_out);
+	GetFeatureLabelindex++;
 }
 void LinkerIndexer::SetSplitFlagNext(char flag)
 {
@@ -211,14 +208,10 @@ int LinkerIndexer::Load(Node* node)
 	ThisData = node->ThisData;
 
 	FastInit();
-	int ei = 0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	for (int i = 0; i < ThisData->N; i++)
 	{
-		//featuretype* feature = ThisData->GetFeatureP(i, NULL, &GetFeaturePEI);
-		//Node* n = node->Tree->TestFeature(i, node->Level);
-		//if (n == node)
-		if (node->Tree->TestFeatureReach(i, node, &ei, feature_temp_store))
+		if (node->Tree->TestFeatureReach(i, node, feature_temp_store))
 		{
 			AddIndex(i);
 		}

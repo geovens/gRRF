@@ -161,6 +161,7 @@ void Sample2()
 		TrainingData->AddElement(adata);
 	}
 
+
 	// train the forest with the training data
 	// linkermode could be 2 or 3. 1 does not work here
 	int rec = forest.Train(TrainingData, 3);
@@ -171,11 +172,14 @@ void Sample2()
 	}
 
 	// generating testing data
+	int GlobalTestSampleID = 0;
 	DataSerial* TestingData = new DataSerial();
 	TestingData->D = 1;
 	for (int d = 0; d < TestingN; d++)
 	{
 		Data_Sample2* adata = new Data_Sample2();
+		GlobalTestSampleID++;
+		adata->ID = GlobalTestSampleID;
 		adata->D = 1;
 		adata->N = 1;
 		adata->x = (float)rand() / RAND_MAX;
@@ -184,6 +188,7 @@ void Sample2()
 		TestingData->AddElement(adata);
 	}
 
+
 	// test the testing data using the trained forest
 	forest.Test(TestingData);
 
@@ -191,9 +196,11 @@ void Sample2()
 	float sumdiff = 0;
 	for (int d = 0; d < TestingData->N; d++)
 	{
-		float x = ((Data_Sample2*)(TestingData->Elements[d]))->x;
-		float v = ((Data_Sample2*)(TestingData->Elements[d]))->v;
-		printf("(%f) -> %f (ground truth is %f)\n", x, TestingData->Predictions[d], v);
+		int local_index;
+		int id = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->ID;
+		float x = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->x;
+		float v = ((Data_Sample2*)(TestingData->GetSample(d, &local_index)))->v;
+		printf("%d: (%f) -> %f (ground truth is %f)\n", id, x, TestingData->Predictions[d], v);
 		sumdiff += abs(TestingData->Predictions[d] - v);
 	}
 	printf("average error: %f\n", sumdiff / TestingData->N);
@@ -203,7 +210,7 @@ void Sample2()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Sample1();
-	//Sample2();
+	//Sample1();
+	Sample2();
 	return 0;
 }

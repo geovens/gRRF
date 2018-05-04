@@ -8,37 +8,43 @@ Data::Data()
 	ReachedNodes = NULL;
 }
 
-featuretype* Data::GetFeatureP(int index, featuretype* abc, int* ei)
+Data* Data::GetSample(int index, int* local_index_out)
+{
+	*local_index_out = index;
+	return this;
+}
+
+featuretype* Data::GetFeatureP(int index, featuretype* abc)
 {
 	return Features + index * D;
 }
 
-void Data::GetFeature(int index, featuretype* abc, featuretype* feature_out, int* ei)
+void Data::GetFeature(int index, featuretype* abc, featuretype* feature_out)
 {
 	memcpy(feature_out, Features + index * D, sizeof(featuretype)* D);
 }
 
-valuetype* Data::GetValueP(int index, int* ei)
+valuetype* Data::GetValueP(int index)
 {
 	return Values + index;
 }
 
-void Data::GetFeatureValue(int index, featuretype* abc, featuretype* feature_out, valuetype* value_out, int* ei)
+void Data::GetFeatureValue(int index, featuretype* abc, featuretype* feature_out, valuetype* value_out)
 {
 	/*
 	memcpy(feature_out, Features + index * D, sizeof(featuretype) * D);
 	*label_out = *(Values + index);
 	*/
-	GetFeature(index, abc, feature_out, ei);
-	GetValue(index, value_out, ei);
+	GetFeature(index, abc, feature_out);
+	GetValue(index, value_out);
 }
 
-void Data::GetValue(int index, valuetype* value_out, int* ei)
+void Data::GetValue(int index, valuetype* value_out)
 {
 	*value_out = *(Values + index);
 }
 
-int Data::SetReachedNode(int index, Node* node, int* ei)
+int Data::SetReachedNode(int index, Node* node)
 {
 	if (ReachedNodes == NULL)
 		ReachedNodes = new Node*[N];
@@ -46,7 +52,7 @@ int Data::SetReachedNode(int index, Node* node, int* ei)
 	return 0;
 }
 
-Node* Data::GetReachedNode(int index, int* ei)
+Node* Data::GetReachedNode(int index)
 {
 	if (ReachedNodes == NULL)
 		return NULL;

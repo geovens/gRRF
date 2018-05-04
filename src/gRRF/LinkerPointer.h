@@ -21,11 +21,6 @@ public:
 	char* SetSplitFlagp;
 	char* GetSplitFlagp;
 
-	int GetFeaturePEI;
-	int GetLabelPEI;
-	int GetFeatureLabelEI;
-	int GetLabelEI;
-
 	int PointerMemoryAlloCount;
 
 	LinkerPointer();

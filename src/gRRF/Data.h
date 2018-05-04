@@ -33,13 +33,14 @@ public:
 	//__declspec(dllexport) virtual Data** NewChildren() = 0;
 
 	__declspec(dllexport) Data();
-	__declspec(dllexport) virtual featuretype* GetFeatureP(int index, featuretype* abc, int* ei);
-	__declspec(dllexport) virtual void GetFeature(int index, featuretype* abc, featuretype* feature_out, int* ei);
-	__declspec(dllexport) virtual valuetype* GetValueP(int index, int* ei);
-	__declspec(dllexport) virtual void GetFeatureValue(int index, featuretype* abc, featuretype* feature_out, valuetype* value_out, int* ei);
-	__declspec(dllexport) virtual void GetValue(int index, valuetype* value_out, int* ei);
-	__declspec(dllexport) virtual int SetReachedNode(int index, Node* prediction, int* ei);
-	__declspec(dllexport) virtual Node* GetReachedNode(int index, int* ei);
+	__declspec(dllexport) virtual Data* GetSample(int index, int* local_index_out);
+	__declspec(dllexport) virtual featuretype* GetFeatureP(int index, featuretype* abc);
+	__declspec(dllexport) virtual void GetFeature(int index, featuretype* abc, featuretype* feature_out);
+	__declspec(dllexport) virtual valuetype* GetValueP(int index);
+	__declspec(dllexport) virtual void GetFeatureValue(int index, featuretype* abc, featuretype* feature_out, valuetype* value_out);
+	__declspec(dllexport) virtual void GetValue(int index, valuetype* value_out);
+	__declspec(dllexport) virtual int SetReachedNode(int index, Node* prediction);
+	__declspec(dllexport) virtual Node* GetReachedNode(int index);
 
 	__declspec(dllexport) virtual int Release();
 };

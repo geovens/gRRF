@@ -25,8 +25,8 @@ int LinkerPointer::InitFromData(Data* data)
 	{
 		featuretype* fp;
 		valuetype lp;
-		fp = data->GetFeatureP(i, NULL, &GetFeaturePEI);
-		data->GetValue(i, &lp, &GetLabelPEI);
+		fp = data->GetFeatureP(i, NULL);
+		data->GetValue(i, &lp);
 		AddPointer(fp, lp);
 	}
 	FastClose();
@@ -166,16 +166,15 @@ int LinkerPointer::Load(Node* node)
 	ThisData = node->ThisData;
 
 	FastInit();
-	int ei = 0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	for (int i = 0; i < ThisData->N; i++)
 	{
-		featuretype* feature = ThisData->GetFeatureP(i, NULL, &GetFeaturePEI);
-		Node* n = node->Tree->TestFeature(i, node->Level, &ei, feature_temp_store);
+		featuretype* feature = ThisData->GetFeatureP(i, NULL);
+		Node* n = node->Tree->TestFeature(i, node->Level, feature_temp_store);
 		if (n == node)
 		{
 			valuetype value;
-			ThisData->GetValue(i, &value, &GetLabelPEI);
+			ThisData->GetValue(i, &value);
 			AddPointer(feature, value);
 		}
 	}

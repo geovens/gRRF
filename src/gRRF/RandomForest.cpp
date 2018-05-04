@@ -83,9 +83,6 @@ int RandomForest::Test(Data* data)
 		//printf("recognition rate of tree no.%d: %lf\n", n, rec);
 	}
 
-	int* ei = new int[TreeCount];
-	memset(ei, 0, sizeof(int) * TreeCount);
-	int EInode = 0;
 	featuretype* feature_temp_store = new featuretype[data->D];
 	for (int i = 0; i < data->N; i++)
 	{
@@ -94,7 +91,7 @@ int RandomForest::Test(Data* data)
 		Node* node = NULL;
 		for (int n = 0; n < TreeCount; n++)
 		{
-			node = Trees[n].TestFeature(i, ei + n, feature_temp_store);
+			node = Trees[n].TestFeature(i, feature_temp_store);
 			sum += node->AverageValue * node->N;
 			//sum += node->AverageValue;
 			sumn += node->N;
@@ -103,7 +100,7 @@ int RandomForest::Test(Data* data)
 
 		data->Predictions[i] = sum / sumn;
 		//data->Predictions[i] = sum / TreeCount;
-		data->SetReachedNode(i, node, &EInode);
+		data->SetReachedNode(i, node);
 	}
 	return 0;
 }
@@ -121,9 +118,6 @@ int RandomForest::Test(Data* data, int level)
 		//printf("recognition rate of tree no.%d: %lf\n", n, rec);
 	}
 
-	int* ei = new int[TreeCount];
-	memset(ei, 0, sizeof(int)* TreeCount);
-	int EInode = 0;
 	featuretype* feature_temp_store = new featuretype[data->D];
 	for (int i = 0; i < data->N; i++)
 	{
@@ -132,7 +126,7 @@ int RandomForest::Test(Data* data, int level)
 		Node* node = NULL;
 		for (int n = 0; n < TreeCount; n++)
 		{
-			node = Trees[n].TestFeature(i, level, ei + n, feature_temp_store);
+			node = Trees[n].TestFeature(i, level, feature_temp_store);
 			sum += node->AverageValue * node->N;
 			//sum += node->AverageValue;
 			sumn += node->N;
@@ -140,7 +134,7 @@ int RandomForest::Test(Data* data, int level)
 
 		data->Predictions[i] = sum / sumn;
 		//data->Predictions[i] = sum / TreeCount;
-		data->SetReachedNode(i, node, &EInode);
+		data->SetReachedNode(i, node);
 	}
 	return 0;
 }

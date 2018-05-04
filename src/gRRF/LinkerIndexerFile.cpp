@@ -9,7 +9,6 @@ LinkerIndexerFile::LinkerIndexerFile()
 {
 	Indexes = NULL;
 	ReadBuffPend = ReadBuff + 508;
-	GetFeatureLabelEI = 0;
 }
 
 int LinkerIndexerFile::InitFromData(Data* data)
@@ -27,7 +26,6 @@ int LinkerIndexerFile::InitFromData(Data* data)
 	fwrite(&N, 1, 4, Indexes);
 	//fclose(Indexes);
 	//FastInit();
-	GetLabelEI = 0;
 	for (int i = 0; i < data->N; i++)
 	{
 		fwrite(&i, 4, 1, Indexes);
@@ -76,10 +74,6 @@ int LinkerIndexerFile::FastInit()
 	}
 	ReadBuffP = ReadBuff + 65536;
 	//ReadBuffPend = ReadBuff - 1;
-	GetFeaturePEI = 0;
-	GetLabelPEI = 0;
-	GetFeatureLabelEI = 0;
-	GetLabelEI = 0;
 	return 0;
 }
 
@@ -116,13 +110,13 @@ valuetype LinkerIndexerFile::GetValueNext()
 	if (r != 4)
 		printf("ERROR: fread failed in DataPointersFile::GetLabelNext()\n");
 	valuetype v;
-	ThisData->GetValue(index, &v, &GetLabelEI);
+	ThisData->GetValue(index, &v);
 	return v;
 }
 void LinkerIndexerFile::GetFeatureValueNext(featuretype* abc, featuretype* feature_out, valuetype* value_out)
 {
 	int index = *(int*)Read4();
-	ThisData->GetFeatureValue(index, abc, feature_out, value_out, &GetFeatureLabelEI);
+	ThisData->GetFeatureValue(index, abc, feature_out, value_out);
 }
 void LinkerIndexerFile::SetSplitFlagNext(char flag)
 {
@@ -301,12 +295,11 @@ int LinkerIndexerFile::LoadByTest(Node* node)
 
 	N = 0;
 	FastInit();
-	int ei = 0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	for (int i = 0; i < ThisData->N; i++)
 	{
 		//featuretype* feature = ThisData->GetFeatureP(i, NULL, &GetFeaturePEI);
-		Node* n = node->Tree->TestFeature(i, node->Level, &ei, feature_temp_store);
+		Node* n = node->Tree->TestFeature(i, node->Level, feature_temp_store);
 		if (n == node)
 		{
 			N++;

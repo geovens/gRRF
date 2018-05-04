@@ -467,12 +467,11 @@ int RandomTree::Test(Data* data)
 
 
 	//data->Predictions = new Node*[data->N];
-	int EI = 0, EInode = 0, eit = 0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	for (int i = 0; i < data->N; i++)
 	{
-		Node* node = TestFeature(i, &eit, feature_temp_store);
-		data->SetReachedNode(i, node, &EInode);
+		Node* node = TestFeature(i, feature_temp_store);
+		data->SetReachedNode(i, node);
 	}
 	delete feature_temp_store;
 	return 0;
@@ -483,12 +482,11 @@ int RandomTree::Test(Data* data, int level)
 	ThisData = data;
 
 	//data->Predictions = new Node*[data->N];
-	int EI = 0, EInode = 0, eit = 0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	for (int i = 0; i < data->N; i++)
 	{
-		Node* node = TestFeature(i, level, &eit, feature_temp_store);
-		data->SetReachedNode(i, node, &EInode);
+		Node* node = TestFeature(i, level, feature_temp_store);
+		data->SetReachedNode(i, node);
 	}
 	delete feature_temp_store;
 	return 0;
@@ -527,37 +525,32 @@ Node* RandomTree::TestFeature(featuretype* feature, int level)
 }
 
 
-Node* RandomTree::TestFeature(int index, int* ei, featuretype* feature_temp_store)
+Node* RandomTree::TestFeature(int index, featuretype* feature_temp_store)
 {
 	Node* node = Root;
-	int ei2;
 	while (!node->IsLeaf)
 	{
 		if (node->ABC == NULL)
 			return NULL;
-		ei2 = *ei;
-		ThisData->GetFeature(index, node->ABC, feature_temp_store, &ei2);
+		ThisData->GetFeature(index, node->ABC, feature_temp_store);
 		int flag = Function->TestFeature(feature_temp_store, node->ABC);
 		if (flag == 0)
 			node = node->Left;
 		else
 			node = node->Right;
 	}
-	*ei = ei2;
 	return node;
 }
 
 
-Node* RandomTree::TestFeature(int index, int level, int* ei, featuretype* feature_temp_store)
+Node* RandomTree::TestFeature(int index, int level, featuretype* feature_temp_store)
 {
 	Node* node = Root;
-	int ei2;
 	while (!node->IsLeaf && node->Level < level)
 	{
 		if (node->ABC == NULL)
 			return NULL;
-		ei2 = *ei;
-		ThisData->GetFeature(index, node->ABC, feature_temp_store, &ei2);
+		ThisData->GetFeature(index, node->ABC, feature_temp_store);
 		//if (node->Trained == 0)
 		//	return node;
 		int flag = Function->TestFeature(feature_temp_store, node->ABC);
@@ -566,18 +559,17 @@ Node* RandomTree::TestFeature(int index, int level, int* ei, featuretype* featur
 		else
 			node = node->Right;
 	}
-	*ei = ei2;
 	return node;
 }
 
-bool RandomTree::TestFeatureReach(int index, Node* srcnode, int* ei, featuretype* feature_temp_store)
+bool RandomTree::TestFeatureReach(int index, Node* srcnode, featuretype* feature_temp_store)
 {
 	Node* node = Root;
 	while (!node->IsLeaf && node->Level < srcnode->Level)
 	{
 		if (node->ABC == NULL)
 			return false;
-		ThisData->GetFeature(index, node->ABC, feature_temp_store, ei);
+		ThisData->GetFeature(index, node->ABC, feature_temp_store);
 		if (node->Trained == 0)
 			return false;
 		int flag = Function->TestFeature(feature_temp_store, node->ABC);
