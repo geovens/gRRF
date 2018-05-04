@@ -167,6 +167,8 @@ void Node::Release()
 	if (!IsLeaf && Right != NULL)
 		Right->Release();
 
+	if (ThisDataPointers != NULL)
+		ThisDataPointers->Release();
 	if (ABC != NULL)
 		delete ABC;
 	delete this;
