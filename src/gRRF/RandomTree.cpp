@@ -354,8 +354,7 @@ int RandomTree::ReadNodeFile()
 		node->Trained = 1;
 	}
 
-	// test
-	printf("Reading trained data of tree #%d\n", ID);
+	printf("Reading trained model of tree #%d\n", ID);
 
 	fclose(fnode);
 	return 0;
