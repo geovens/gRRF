@@ -145,7 +145,6 @@ void Sample2()
 	forest.SetCandidatesEachNode(CandidatesEachNode);
 	forest.SetMaxTreeDepth(MaxTreeDepth);
 	forest.SetMaxThreadNumber(MaxThreadNumber);
-
 	Function* decisionfunc = new Function_Sample2();
 	forest.SetFunction(decisionfunc);
 
@@ -173,6 +172,18 @@ void Sample2()
 		return;
 	}
 
+	// delete the trained tree as if ending the training program
+	forest.Release();
+
+
+
+	// reload the previously trained tree as if the new testing program starting
+	RandomForest forest_test;
+	forest_test.Plant(TreeNumber);
+	decisionfunc = new Function_Sample2();
+	forest_test.SetFunction(decisionfunc);
+	forest_test.Load(); // load the previously trained model from ./output/ folder which was automatically saved during training
+
 	// generating testing data
 	DataSerial* TestingData = new DataSerial();
 	TestingData->D = 1;
@@ -189,7 +200,7 @@ void Sample2()
 
 
 	// test the testing data using the trained forest
-	forest.Test(TestingData);
+	forest_test.Test(TestingData);
 
 	// show testing results
 	float sumdiff = 0;
@@ -203,7 +214,7 @@ void Sample2()
 	}
 	printf("average error: %f\n", sumdiff / TestingData->N);
 
-	forest.Release();
+	forest_test.Release();
 	getchar();
 }
 

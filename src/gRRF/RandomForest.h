@@ -20,6 +20,8 @@ public:
 	__declspec(dllexport) int Train(Data* data, int linkermode);
 	// start training new model
 	__declspec(dllexport) int TrainNew(Data* data, int linkermode);
+	// read previously trained model
+	__declspec(dllexport) int Load();
 	__declspec(dllexport) int Test(Data* data);
 	__declspec(dllexport) int Test(Data* data, int level);
 

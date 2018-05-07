@@ -71,6 +71,29 @@ int RandomTree::Grow(Node* node)
 	return 0;
 }
 
+int RandomTree::ForceGrow(Node* node)
+{
+	if (node->Left != NULL && node->Right != NULL)
+		return -1;
+	if (node->Level == MaxDepth)
+		MaxDepth++;
+	Node* lnode = new Node();
+	Node* rnode = new Node();
+	lnode->Tree = this;
+	rnode->Tree = this;
+	lnode->Index = node->Index * 2 + 0;
+	rnode->Index = node->Index * 2 + 1;
+	node->Left = lnode;
+	node->Right = rnode;
+	lnode->Parent = node;
+	rnode->Parent = node;
+	lnode->Level = node->Level + 1;
+	rnode->Level = node->Level + 1;
+	if (node->Level + 1 > Depth)
+		Depth = node->Level + 1;
+	return 0;
+}
+
 int RandomTree::PlantGrowFull(int depth)
 {
 	if (depth > 25)
@@ -215,7 +238,7 @@ Node* RandomTree::FindNode(int level, unsigned long long index)
 	while (n->Level < level)
 	{
 		if (n->Left == NULL || n->Right == NULL)
-			Grow(n);
+			ForceGrow(n);
 		int i = (index >> (level - n->Level - 1)) & 0x1;
 		if (i == 1)
 			n = n->Right;
