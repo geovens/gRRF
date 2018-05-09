@@ -1,5 +1,7 @@
 
 #pragma once
+#include <string>
+
 class RandomTree;
 class Data;
 class Function;
@@ -7,11 +9,13 @@ class Function;
 class RandomForest
 {
 public:
+	std::string SavePath;
 	int TreeCount;
 	RandomTree* Trees;
 
 	__declspec(dllexport) RandomForest();
 	__declspec(dllexport) int Plant(int count);
+	__declspec(dllexport) int SetSavePath(std::string path);
 	__declspec(dllexport) int SetFunction(Function* function);
 	__declspec(dllexport) int SetCandidatesEachNode(int cen);
 	__declspec(dllexport) int SetMaxTreeDepth(int depth);

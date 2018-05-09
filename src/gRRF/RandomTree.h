@@ -10,6 +10,9 @@ class Data;
 class RandomTree
 {
 public:
+	// output file location
+	std::string SavePath;
+	// index of tree
 	int ID;
 	// max allowed depth of tree
 	int MaxDepth;

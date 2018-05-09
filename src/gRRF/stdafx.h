@@ -9,7 +9,7 @@
 #include <tchar.h>
 #include <time.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <math.h>
 #include <thread>
 #include <mutex>

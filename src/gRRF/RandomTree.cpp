@@ -10,6 +10,7 @@
 
 RandomTree::RandomTree()
 {
+	SavePath = "./output/";
 	ID = 0;
 	CandidatesEachNode = 1000;
 	MaxThreadNumber = 4;
@@ -274,7 +275,7 @@ int RandomTree::LoadDataPointers(Node* node)
 int RandomTree::ReadTrainingProcess()
 {
 	FILE* ftree;
-	ftree = fopen(".\\output\\tree.txt", "r+");
+	ftree = fopen((SavePath + "tree.txt").c_str(), "r+");
 	if (ftree == NULL)
 		return 0;
 
@@ -298,10 +299,8 @@ int RandomTree::ReadTrainingProcess()
 
 int RandomTree::ReadNodeFile()
 {
-	char nodefiletext[1024];
-	sprintf(nodefiletext, ".\\output\\nodes-%d.txt", ID);
 	FILE* fnode;
-	fnode = fopen(nodefiletext, "r+");
+	fnode = fopen((SavePath + "nodes-" + std::to_string(ID) + ".txt").c_str(), "r+");
 	if (fnode == NULL)
 		return -1;
 
@@ -401,13 +400,11 @@ int RandomTree::TrainNew(Data* data, int linkermode)
 
 	printf("starting a new training process.\n\n");
 	FILE* ftree;
-	ftree = fopen(".\\output\\tree.txt", "w");
+	ftree = fopen((SavePath + "tree.txt").c_str(), "w");
 	fprintf(ftree, "%d,%d,%d,%d\n", MaxDepth, ThisData->N, ThisData->D, Function->ABCNum);
 	fprintf(ftree, "%d,%d\n", CandidatesEachNode, linkermode);
 	fclose(ftree);
-	char nodefiletext[1024];
-	sprintf(nodefiletext, ".\\output\\nodes-%d.txt", ID);
-	FNode = fopen(nodefiletext, "w");
+	FNode = fopen((SavePath + "nodes-" + std::to_string(ID) + ".txt").c_str(), "w");
 	fprintf(FNode, "%d\n", Function->ABCNum);
 
 	Linker* datapointers;
@@ -466,9 +463,7 @@ int RandomTree::Train(Data* data, int linkermode)
 	else if (rec == 1)
 	{
 		printf("resuming previous training process.\n\n");
-		char nodefiletext[1024];
-		sprintf(nodefiletext, ".\\output\\nodes-%d.txt", ID);
-		FNode = fopen(nodefiletext, "a+");
+		FNode = fopen((SavePath + "nodes-" + std::to_string(ID) + ".txt").c_str(), "a+");
 
 		//RecursionSplitTrainingSet(Root);
 		int** hp = new int*[2];

@@ -6,6 +6,7 @@
 
 RandomForest::RandomForest()
 {
+	SavePath = "./output/";
 	TreeCount = 0;
 }
 
@@ -17,6 +18,18 @@ int RandomForest::Plant(int count)
 	{
 		Trees[n].ID = n;
 		Trees[n].Plant();
+	}
+	return 0;
+}
+
+int RandomForest::SetSavePath(std::string path)
+{
+	if (path.back() != '/' || path.back() != '\\')
+		path += '/';
+	SavePath = path;
+	for (int n = 0; n < TreeCount; n++)
+	{
+		Trees[n].SavePath = path;
 	}
 	return 0;
 }
@@ -59,8 +72,8 @@ int RandomForest::SetMaxThreadNumber(int thread)
 
 int RandomForest::TrainNew(Data* data, int linkermode)
 {
-	_mkdir("./output");
-	if (linkermode == 2) _mkdir("./internal");
+	_mkdir(SavePath.c_str());
+	if (linkermode == 2) _mkdir((SavePath + "internal").c_str());
 
 	for (int n = 0; n < TreeCount; n++)
 	{
@@ -73,8 +86,8 @@ int RandomForest::TrainNew(Data* data, int linkermode)
 
 int RandomForest::Train(Data* data, int linkermode)
 {
-	_mkdir("./output");
-	if (linkermode == 2) _mkdir("./internal");
+	_mkdir(SavePath.c_str());
+	if (linkermode == 2) ((SavePath + "internal").c_str());
 
 	for (int n = 0; n < TreeCount; n++)
 	{
