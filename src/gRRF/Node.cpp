@@ -91,7 +91,7 @@ int Node::SplitManyTimes(int times)
 	delete abc;
 	delete eout;
 
-	if (mindiff == 0)
+	if (mindiff == 10000000.0)
 	{
 		return -1;
 	}
