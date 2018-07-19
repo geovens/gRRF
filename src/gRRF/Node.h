@@ -13,10 +13,13 @@ public:
 	unsigned long long Index;
 	// root node is level 0. leaf nodes are level depth.
 	int Level;
-	// randomly generated params for splitting
+	// randomly generated params for splitting (on non-leaf nodes) and linear fitting (on leaf nodes)
 	featuretype* ABC;
 	// whether this is a leaf node
 	bool IsLeaf;
+	// linear fitting coef (on leaf nodes)
+	float FitCoefA;
+	float FitCoefB;
 	// whether this node has been trained
 	int Trained;
 	// type of this node
@@ -42,6 +45,10 @@ public:
 	int Split(featuretype* abc, featuretype* feature_temp_store, bool setsplitflags = false);
 	int SplitManyTimes(int times);
 	int CalEntropy(double* eout);
+	double FindCorrAndFit(featuretype* abc, featuretype* feature_temp_store);
+	int FindCorrManyTimes(int times);
+	// calculate the fitted value of the index-th test sample using the linear fitting model
+	valuetype FittedValue(featuretype* feature);
 	int Vote();
 
 	void Release();

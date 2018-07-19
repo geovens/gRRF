@@ -11,6 +11,11 @@ class RandomForest
 public:
 	std::string SavePath;
 	int TreeCount;
+	// how to test data. 
+	// 0 = use the linear fitting modal on leaf node of each tree
+	// 1 = only use the average value of leaf node of each tree
+	int LeafVotingMode = 0;
+
 	RandomTree* Trees;
 
 	__declspec(dllexport) RandomForest();

@@ -164,6 +164,7 @@ int RandomTree::RecursionSplitTrainingSet(Node* node)
 				printf("%d -> %d, %d\n", node->ThisDataPointers->N, node->Left->ThisDataPointers->N, node->Right->ThisDataPointers->N);
 			}
 
+			node->Vote(); // not neccessary if only testing with the full tree. needed if testing with RandomTree::Test(data, level) with shortened level
 			node->Trained = 1;
 			WriteNode(node);
 

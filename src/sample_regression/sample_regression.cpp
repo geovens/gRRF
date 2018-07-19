@@ -220,7 +220,7 @@ void Sample2()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Sample1();
-	//Sample2();
+	//Sample1();
+	Sample2();
 	return 0;
 }

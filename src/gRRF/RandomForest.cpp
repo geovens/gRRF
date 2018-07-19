@@ -117,9 +117,6 @@ int RandomForest::Test(Data* data)
 	for (int n = 0; n < TreeCount; n++)
 	{
 		Trees[n].ThisData = data;
-		// temp for display
-		//double rec = Trees[n].Test(data);
-		//printf("recognition rate of tree no.%d: %lf\n", n, rec);
 	}
 
 	featuretype* feature_temp_store = new featuretype[data->D];
@@ -131,7 +128,15 @@ int RandomForest::Test(Data* data)
 		for (int n = 0; n < TreeCount; n++)
 		{
 			node = Trees[n].TestFeature(i, feature_temp_store);
-			sum += node->AverageValue * node->N;
+			if (LeafVotingMode == 1)
+			{
+				sum += node->AverageValue * node->N;
+			}
+			else
+			{
+				data->GetFeature(i, node->ABC, feature_temp_store);
+				sum += n
+			}
 			sumn += node->N;
 			if (node->N == 0) printf("WARNING: N==0");
 		}
@@ -148,9 +153,6 @@ int RandomForest::Test(Data* data, int level)
 	for (int n = 0; n < TreeCount; n++)
 	{
 		Trees[n].ThisData = data;
-		// temp for display
-		//double rec = Trees[n].Test(data);
-		//printf("recognition rate of tree no.%d: %lf\n", n, rec);
 	}
 
 	featuretype* feature_temp_store = new featuretype[data->D];
