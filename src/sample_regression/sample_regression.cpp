@@ -88,7 +88,6 @@ void Sample1()
 	}
 
 	// test the testing data using the trained forest
-	forest.SetLeafVotingMode(1);
 	forest.Test(TestingData);
 
 	// show testing results
@@ -135,7 +134,7 @@ void Sample2()
 
 	// plan a forest and set some parameters
 	int CandidatesEachNode = 1000; // how many sets of feature extracting parameters are randomly generated when training each node. Each node will choose a 'best' one from these many candidates.
-	int MaxTreeDepth = 12; 
+	int MaxTreeDepth = 5; 
 	int TreeNumber = 5;
 	int MaxThreadNumber = 4; // when using more than 1 thread to train, the output texts are disordered but that is OK.
 	int TrainingN = 1000;
@@ -183,7 +182,6 @@ void Sample2()
 	forest_test.Plant(TreeNumber);
 	decisionfunc = new Function_Sample2();
 	forest_test.SetFunction(decisionfunc);
-	forest_test.SetLeafVotingMode(1);
 	forest_test.Load(); // load the previously trained model from ./output/ folder which was automatically saved during training
 
 	// generating testing data

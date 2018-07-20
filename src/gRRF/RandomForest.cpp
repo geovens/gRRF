@@ -171,7 +171,16 @@ int RandomForest::Test(Data* data, int level)
 		for (int n = 0; n < TreeCount; n++)
 		{
 			node = Trees[n].TestFeature(i, level, feature_temp_store);
-			sum += node->AverageValue * node->N;
+			if (LeafVotingMode == 1)
+			{
+				sum += node->AverageValue * node->N;
+			}
+			else
+			{
+				data->GetFeature(i, node->ABC_Fit, feature_temp_store);
+				valuetype v = node->FitCoefA + node->FitCoefB * feature_temp_store[0];
+				sum += v * node->N;
+			}
 			sumn += node->N;
 		}
 
