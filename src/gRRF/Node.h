@@ -13,8 +13,10 @@ public:
 	unsigned long long Index;
 	// root node is level 0. leaf nodes are level depth.
 	int Level;
-	// randomly generated params for splitting (on non-leaf nodes) and linear fitting (on leaf nodes)
+	// randomly generated params for splitting (on non-leaf nodes) 
 	featuretype* ABC;
+	// randomly generated params for linear fitting (on leaf nodes)
+	featuretype* ABC_Fit;
 	// whether this is a leaf node
 	bool IsLeaf;
 	// linear fitting coef (on leaf nodes)

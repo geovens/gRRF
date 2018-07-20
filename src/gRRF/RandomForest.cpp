@@ -140,7 +140,7 @@ int RandomForest::Test(Data* data)
 			}
 			else
 			{
-				data->GetFeature(i, node->ABC, feature_temp_store);
+				data->GetFeature(i, node->ABC_Fit, feature_temp_store);
 				valuetype v = node->FitCoefA + node->FitCoefB * feature_temp_store[0];
 				sum += v * node->N;
 			}

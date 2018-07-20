@@ -11,6 +11,7 @@ Node::Node()
 {
 	N = 0;
 	ABC = NULL;
+	ABC_Fit = NULL;
 	FuncRandomABC = NULL;
 	Left = NULL;
 	Right = NULL;
@@ -192,10 +193,8 @@ double Node::FindCorrAndFit(featuretype* abc, featuretype* feature_temp_store)
 
 int Node::FindCorrManyTimes(int times)
 {
-	if (ABC == NULL)
-		ABC = new featuretype[Tree->Function->ABCNum];
-	//for (int d = 0; d < Tree->Function->ABCNum; d++)
-	//	ABC[d] = 0;
+	if (ABC_Fit == NULL)
+		ABC_Fit = new featuretype[Tree->Function->ABCNum];
 	double maxcorr = 0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	featuretype* abc = new featuretype[Tree->Function->ABCNum];
@@ -211,7 +210,7 @@ int Node::FindCorrManyTimes(int times)
 
 		if (corr > maxcorr)
 		{
-			memcpy(ABC, abc, Tree->Function->ABCNum * sizeof(featuretype));
+			memcpy(ABC_Fit, abc, Tree->Function->ABCNum * sizeof(featuretype));
 			maxcorr = corr;
 		}
 	}
@@ -226,7 +225,7 @@ int Node::FindCorrManyTimes(int times)
 	else
 	{
 		featuretype* feature_temp_store = new featuretype[ThisData->D];
-		FindCorrAndFit(ABC, feature_temp_store);
+		FindCorrAndFit(ABC_Fit, feature_temp_store);
 		delete feature_temp_store;
 		return 0;
 	}
@@ -251,6 +250,7 @@ int Node::Vote()
 	if (n > 0)
 		AverageValue = sum / n;
 
+	
 	// for linear fitting
 	if (n > 1)
 	{
@@ -261,7 +261,7 @@ int Node::Vote()
 		FitCoefA = AverageValue;
 		FitCoefB = 0;
 	}
-
+	
 	return 0;
 }
 
@@ -276,5 +276,7 @@ void Node::Release()
 		ThisDataPointers->Release();
 	if (ABC != NULL)
 		delete ABC;
+	if (ABC_Fit != NULL)
+		delete ABC_Fit;
 	delete this;
 }
