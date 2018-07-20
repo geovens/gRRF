@@ -327,7 +327,10 @@ int RandomTree::ReadNodeFile()
 		double ave;
 		int re = sscanf(line, "%d,%lld,%d,%le,%d,%n", &level, &index, &leaf, &ave, &n, &sumbyt);
 		if (re != 5)
+		{
+			printf("ERROR reading node file header\n");
 			continue;
+		}
 		Node* node = FindNode(level, index);
 		if (leaf == 1)
 			node->IsLeaf = true;
@@ -336,21 +339,36 @@ int RandomTree::ReadNodeFile()
 
 		node->ABC = new featuretype[Function->ABCNum];
 	
+		double r;
 		for (int a = 0; a < ABCNum; a++)
 		{
-			double r;
 			re = sscanf(line + sumbyt, "%le,%n", &r, &byt);
 			if (re != 1)
 			{
-				printf("ERRORuqq, linenum=%d\n", linenum);
+				printf("ERROR reading node file, linenum=%d\n", linenum);
 				continue;
 			}
 			sumbyt += byt;
 			node->ABC[a] = r;
-
-			// test
-			//if (!node->IsLeaf && a == 4) abc5[(int)r]++;  // CAUSEING TROUBLE!!!
 		}
+
+		re = sscanf(line + sumbyt, "%le,%n", &r, &byt);
+		if (re != 1)
+		{
+			printf("ERROR reading node file, linenum=%d\n", linenum);
+			continue;
+		}
+		sumbyt += byt;
+		node->FitCoefA = r;
+		re = sscanf(line + sumbyt, "%le,%n", &r, &byt);
+		if (re != 1)
+		{
+			printf("ERROR reading node file, linenum=%d\n", linenum);
+			continue;
+		}
+		sumbyt += byt;
+		node->FitCoefB = r;
+
 		node->Trained = 1;
 	}
 
@@ -371,6 +389,8 @@ int RandomTree::WriteNode(Node* node)
 	sprintf(line, "%d,%lld,%d,%le,%d,", node->Level, node->Index, node->IsLeaf ? 1 : 0, node->AverageValue, node->N);
 	for (int a = 0; a < Function->ABCNum; a++)
 		sprintf(line + strlen(line), "%le,", node->ABC != NULL ? node->ABC[a] : 0.0);
+	sprintf(line + strlen(line), "%le,", node->FitCoefA);
+	sprintf(line + strlen(line), "%le,", node->FitCoefB);
 	sprintf(line + strlen(line), "\n");
 
 	/*if (IsWritingNode > 1)

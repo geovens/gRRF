@@ -18,8 +18,8 @@ public:
 	// whether this is a leaf node
 	bool IsLeaf;
 	// linear fitting coef (on leaf nodes)
-	float FitCoefA;
-	float FitCoefB;
+	double FitCoefA;
+	double FitCoefB;
 	// whether this node has been trained
 	int Trained;
 	// type of this node
@@ -47,8 +47,6 @@ public:
 	int CalEntropy(double* eout);
 	double FindCorrAndFit(featuretype* abc, featuretype* feature_temp_store);
 	int FindCorrManyTimes(int times);
-	// calculate the fitted value of the index-th test sample using the linear fitting model
-	valuetype FittedValue(featuretype* feature);
 	int Vote();
 
 	void Release();

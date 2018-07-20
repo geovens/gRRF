@@ -25,6 +25,7 @@ public:
 	__declspec(dllexport) int SetCandidatesEachNode(int cen);
 	__declspec(dllexport) int SetMaxTreeDepth(int depth);
 	__declspec(dllexport) int SetMaxThreadNumber(int thread);
+	__declspec(dllexport) int SetLeafVotingMode(int mode);
 	// automatically start training new model or resume previous unfinished training process
 	__declspec(dllexport) int Train(Data* data, int linkermode);
 	// start training new model

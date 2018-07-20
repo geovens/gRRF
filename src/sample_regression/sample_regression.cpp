@@ -88,6 +88,7 @@ void Sample1()
 	}
 
 	// test the testing data using the trained forest
+	forest.SetLeafVotingMode(1);
 	forest.Test(TestingData);
 
 	// show testing results
@@ -182,6 +183,7 @@ void Sample2()
 	forest_test.Plant(TreeNumber);
 	decisionfunc = new Function_Sample2();
 	forest_test.SetFunction(decisionfunc);
+	forest_test.SetLeafVotingMode(1);
 	forest_test.Load(); // load the previously trained model from ./output/ folder which was automatically saved during training
 
 	// generating testing data
@@ -220,7 +222,7 @@ void Sample2()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//Sample1();
-	Sample2();
+	Sample1();
+	//Sample2();
 	return 0;
 }

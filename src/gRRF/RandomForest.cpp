@@ -70,6 +70,12 @@ int RandomForest::SetMaxThreadNumber(int thread)
 	return 0;
 }
 
+int RandomForest::SetLeafVotingMode(int mode)
+{
+	LeafVotingMode = mode;
+	return 0;
+}
+
 int RandomForest::TrainNew(Data* data, int linkermode)
 {
 	_mkdir(SavePath.c_str());
@@ -135,7 +141,8 @@ int RandomForest::Test(Data* data)
 			else
 			{
 				data->GetFeature(i, node->ABC, feature_temp_store);
-				sum += n
+				valuetype v = node->FitCoefA + node->FitCoefB * feature_temp_store[0];
+				sum += v * node->N;
 			}
 			sumn += node->N;
 			if (node->N == 0) printf("WARNING: N==0");

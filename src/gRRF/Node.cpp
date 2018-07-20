@@ -174,12 +174,19 @@ double Node::FindCorrAndFit(featuretype* abc, featuretype* feature_temp_store)
 	ThisDataPointers->FastClose();
 	stddfeature = sqrt(sumsqdfeature / ThisDataPointers->N);
 	stddvalue = sqrt(sumsqdvalue / ThisDataPointers->N);
-	sqdcorr = sumsqdcorr / stddfeature / stddvalue;
 
-	// fit linear
-	FitCoefB = sumsqdcorr / sumsqdfeature;
-	FitCoefA = avevalue - FitCoefB * avefeature;
-
+	if (stddfeature > 0 && stddvalue > 0)
+	{
+		sqdcorr = sumsqdcorr / stddfeature / stddvalue;
+		FitCoefB = sumsqdcorr / sumsqdfeature;
+		FitCoefA = avevalue - FitCoefB * avefeature;
+	}
+	else
+	{
+		sqdcorr = 0;
+		FitCoefA = avevalue;
+		FitCoefB = 0;
+	}
 	return abs(sqdcorr);
 }
 
@@ -225,11 +232,6 @@ int Node::FindCorrManyTimes(int times)
 	}
 }
 
-valuetype Node::FittedValue(featuretype )
-{
-	ThisDataPointers->GetFeatureValue(abc, feature_temp_store, &value);
-}
-
 int Node::Vote()
 {
 	// for voting
@@ -250,8 +252,15 @@ int Node::Vote()
 		AverageValue = sum / n;
 
 	// for linear fitting
-
-	FindCorrManyTimes(Tree->CandidatesEachNode);
+	if (n > 1)
+	{
+		FindCorrManyTimes(Tree->CandidatesEachNode);
+	}
+	else
+	{
+		FitCoefA = AverageValue;
+		FitCoefB = 0;
+	}
 
 	return 0;
 }
