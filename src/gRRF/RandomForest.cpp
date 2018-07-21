@@ -142,6 +142,10 @@ int RandomForest::Test(Data* data)
 			{
 				data->GetFeature(i, node->ABC_Fit, feature_temp_store);
 				valuetype v = node->FitCoefA + node->FitCoefB * feature_temp_store[0];
+				if (v > node->FitMaxCap)
+					v = node->FitMaxCap;
+				if (v < node->FitMinCap)
+					v = node->FitMinCap;
 				sum += v * node->N;
 			}
 			sumn += node->N;
@@ -179,6 +183,10 @@ int RandomForest::Test(Data* data, int level)
 			{
 				data->GetFeature(i, node->ABC_Fit, feature_temp_store);
 				valuetype v = node->FitCoefA + node->FitCoefB * feature_temp_store[0];
+				if (v > node->FitMaxCap)
+					v = node->FitMaxCap;
+				if (v < node->FitMinCap)
+					v = node->FitMinCap;
 				sum += v * node->N;
 			}
 			sumn += node->N;

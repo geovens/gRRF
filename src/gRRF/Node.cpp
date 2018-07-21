@@ -238,14 +238,21 @@ int Node::Vote()
 	valuetype sum = 0;
 	int n = 0;
 
+	valuetype max = -1000000;
+	valuetype min = 1000000;
 	ThisDataPointers->FastInit();
 	for (int i = 0; i < ThisDataPointers->N; i++)
 	{
 		float v = ThisDataPointers->GetValueNext();
 		sum += v;
 		n++;
+
+		if (v > max) max = v;
+		if (v < min) min = v;
 	}
 	ThisDataPointers->FastClose();
+	FitMaxCap = max;
+	FitMinCap = min;
 
 	if (n > 0)
 		AverageValue = sum / n;

@@ -381,6 +381,23 @@ int RandomTree::ReadNodeFile()
 		sumbyt += byt;
 		node->FitCoefB = r;
 
+		re = sscanf(line + sumbyt, "%le,%n", &r, &byt);
+		if (re != 1)
+		{
+			printf("ERROR reading node file, linenum=%d\n", linenum);
+			continue;
+		}
+		sumbyt += byt;
+		node->FitMinCap = r;
+		re = sscanf(line + sumbyt, "%le,%n", &r, &byt);
+		if (re != 1)
+		{
+			printf("ERROR reading node file, linenum=%d\n", linenum);
+			continue;
+		}
+		sumbyt += byt;
+		node->FitMaxCap = r;
+
 		node->Trained = 1;
 	}
 
@@ -405,6 +422,8 @@ int RandomTree::WriteNode(Node* node)
 		sprintf(line + strlen(line), "%le,", node->ABC_Fit != NULL ? node->ABC_Fit[a] : 0.0);
 	sprintf(line + strlen(line), "%le,", node->FitCoefA);
 	sprintf(line + strlen(line), "%le,", node->FitCoefB);
+	sprintf(line + strlen(line), "%le,", node->FitMinCap);
+	sprintf(line + strlen(line), "%le,", node->FitMaxCap);
 	sprintf(line + strlen(line), "\n");
 
 	/*if (IsWritingNode > 1)

@@ -22,6 +22,8 @@ public:
 	// linear fitting coef (on leaf nodes)
 	double FitCoefA;
 	double FitCoefB;
+	valuetype FitMaxCap;
+	valuetype FitMinCap;
 	// whether this node has been trained
 	int Trained;
 	// type of this node
