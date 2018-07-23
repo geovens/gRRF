@@ -134,7 +134,7 @@ void Sample2()
 
 	// plan a forest and set some parameters
 	int CandidatesEachNode = 1000; // how many sets of feature extracting parameters are randomly generated when training each node. Each node will choose a 'best' one from these many candidates.
-	int MaxTreeDepth = 5; 
+	int MaxTreeDepth = 12; 
 	int TreeNumber = 5;
 	int MaxThreadNumber = 4; // when using more than 1 thread to train, the output texts are disordered but that is OK.
 	int TrainingN = 1000;
@@ -144,6 +144,7 @@ void Sample2()
 	forest.Plant(TreeNumber);
 	forest.SetCandidatesEachNode(CandidatesEachNode);
 	forest.SetMaxTreeDepth(MaxTreeDepth);
+	forest.SetMinSampleNOnLeaf(20);
 	forest.SetMaxThreadNumber(MaxThreadNumber);
 	Function* decisionfunc = new Function_Sample2();
 	forest.SetFunction(decisionfunc);

@@ -16,6 +16,8 @@ public:
 	int ID;
 	// max allowed depth of tree
 	int MaxDepth;
+	// min sample number on leaf nodes
+	int MinSampleNOnLeaf;
 	// real depth of tree
 	int Depth;
 	// how many times the process that params abc is random selected and entropy is calculated is done on each node.

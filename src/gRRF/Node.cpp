@@ -52,6 +52,8 @@ int Node::Split(featuretype* abc, featuretype* feature_temp_store, bool setsplit
 
 	if (ThisDataPointers->ChildrenN[0] == 0 || ThisDataPointers->ChildrenN[1] == 0)
 		return -1;
+	else if (ThisDataPointers->ChildrenN[0] < Tree->MinSampleNOnLeaf || ThisDataPointers->ChildrenN[1] < Tree->MinSampleNOnLeaf)
+		return -2;
 	else
 		return 0;
 }
@@ -61,7 +63,7 @@ int Node::SplitManyTimes(int times)
 	ABC = new featuretype[Tree->Function->ABCNum];
 	for (int d = 0; d < Tree->Function->ABCNum; d++)
 		ABC[d] = 0;
-	double mindiff = 10000000.0;
+	double mindiff = 10000001.0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	featuretype* abc = new featuretype[Tree->Function->ABCNum];
 	double* eout = new double[4];
@@ -92,7 +94,7 @@ int Node::SplitManyTimes(int times)
 	delete abc;
 	delete eout;
 
-	if (mindiff == 10000000.0)
+	if (mindiff >= 10000000.0)
 	{
 		return -1;
 	}

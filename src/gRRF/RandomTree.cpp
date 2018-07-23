@@ -14,6 +14,7 @@ RandomTree::RandomTree()
 	ID = 0;
 	CandidatesEachNode = 1000;
 	MaxThreadNumber = 4;
+	MinSampleNOnLeaf = 1;
 	ThreadCount = 0;
 	//IsWritingNode = 0;
 }

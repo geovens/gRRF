@@ -76,6 +76,15 @@ int RandomForest::SetLeafVotingMode(int mode)
 	return 0;
 }
 
+int RandomForest::SetMinSampleNOnLeaf(int minn)
+{
+	for (int n = 0; n < TreeCount; n++)
+	{
+		Trees[n].MinSampleNOnLeaf = minn;
+	}
+	return 0;
+}
+
 int RandomForest::TrainNew(Data* data, int linkermode)
 {
 	_mkdir(SavePath.c_str());
