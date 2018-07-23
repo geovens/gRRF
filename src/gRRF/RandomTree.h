@@ -5,7 +5,6 @@
 class Node;
 class Function;
 class Data;
-//#include "windows.h"
 
 class RandomTree
 {

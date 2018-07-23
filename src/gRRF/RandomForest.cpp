@@ -120,6 +120,7 @@ int RandomForest::Load()
 		int rec = Trees[t].ReadNodeFile();
 		if (rec < 0)
 		{
+			TreeCount = t;
 			printf("failed load tree %d\n", t);
 			return -1;
 		}

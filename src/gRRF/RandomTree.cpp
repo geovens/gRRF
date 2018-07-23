@@ -222,7 +222,7 @@ int RandomTree::NewThread(void* lpParameter)
 	RandomTree* tree = (RandomTree*)hp[0];
 	Node* node = (Node*)hp[1];
 
-	srand(time(NULL));
+	srand(time(NULL) + tree->ID * 100 + node->Index);
 	//srand(node->Index);
 
 	tree->ThreadCount_mutex.lock();

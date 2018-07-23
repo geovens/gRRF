@@ -67,7 +67,6 @@ int Node::SplitManyTimes(int times)
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	featuretype* abc = new featuretype[Tree->Function->ABCNum];
 	double* eout = new double[4];
-	//srand(101 + Tree->ID);
 
 	for (int t = 0; t < times; t++)
 	{
