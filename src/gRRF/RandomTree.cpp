@@ -301,6 +301,8 @@ int RandomTree::ReadTrainingProcess()
 
 int RandomTree::ReadNodeFile()
 {
+	printf("Reading trained model of tree #%d\n", ID);
+
 	FILE* fnode;
 	fnode = fopen((SavePath + "nodes-" + std::to_string(ID) + ".txt").c_str(), "r+");
 	if (fnode == NULL)
@@ -401,8 +403,6 @@ int RandomTree::ReadNodeFile()
 
 		node->Trained = 1;
 	}
-
-	printf("Reading trained model of tree #%d\n", ID);
 
 	fclose(fnode);
 	return 0;

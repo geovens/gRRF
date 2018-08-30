@@ -196,6 +196,9 @@ int Node::FindCorrManyTimes(int times)
 {
 	if (ABC_Fit == NULL)
 		ABC_Fit = new featuretype[Tree->Function->ABCNum];
+	for (int d = 0; d < Tree->Function->ABCNum; d++)
+		ABC_Fit[d] = 0;
+
 	double maxcorr = 0;
 	featuretype* feature_temp_store = new featuretype[ThisData->D];
 	featuretype* abc = new featuretype[Tree->Function->ABCNum];
@@ -260,11 +263,12 @@ int Node::Vote()
 
 	
 	// for linear fitting
+	int rec = -1;
 	if (n > 1)
 	{
-		FindCorrManyTimes(Tree->CandidatesEachNode);
+		rec = FindCorrManyTimes(Tree->CandidatesEachNode);
 	}
-	else
+	if (rec < 0)
 	{
 		FitCoefA = AverageValue;
 		FitCoefB = 0;
